@@ -15,26 +15,82 @@ using System.Numerics;
 
 class Solution
 {
-    // Complete the miniMaxSum function below.
-    static void miniMaxSum(int[] arr)
-    {
-        for (var i = 0; i < arr.Length; i++)
-        {
-            var y = arr.SkipWhile(x => x == arr.ElementAt(i));
-            
 
+    // Complete the timeInWords function below.
+    private static readonly string[] m_Hours = {
+        "", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+        "eleven", "twelve"};
+
+    private static readonly string[] m_Minutes = {
+        "", "one", "two", "three", "four", "five", "six","seven", "eight", "nine", "ten",
+        "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+        "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
+        "twenty one", "twenty two", "twenty three", "twenty four", "twenty five",
+        "twenty six", "twenty seven", "twenty eight", "twenty nine" };
+
+    static string TimeInWords(int h, int m)
+    {
+        if (m == 0)
+        {
+            return OClock(h);
         }
 
-        //Console.WriteLine($"{min} {max}");
-        //1659655705 2484892405
+        if (m <= 30)
+        {
+            return PastHour(h, m);
+        }
+
+        return ToHour(h, m);
+    }
+
+    private static string OClock(int h)
+    {
+        return string.Concat(m_Hours[h], " o' clock");
+    }
+
+    private static string PastHour(int h, int m)
+    {
+        if (m == 1)
+        {
+            return string.Concat("one minute past ", m_Hours[h]);
+        }
+        if (m == 15)
+        {
+            return string.Concat("quarter past ", m_Hours[h]);
+        }
+        if (m == 30)
+        {
+            return string.Concat("half past ", m_Hours[h]);
+        }
+        return string.Concat(m_Minutes[m], " minutes past ", m_Hours[h]);
+    }
+
+    private static string ToHour(int h, int m)
+    {
+        h = h == 12 ? 1 : h + 1;
+        m = 60 - m;
+
+        if (m == 15)
+        {
+            return string.Concat("quarter to ", m_Hours[h]);
+        }
+        return string.Concat(m_Minutes[m], " minutes to ", m_Hours[h]);
     }
 
     public static void Main(string[] args)
     {
-        int[] arr = Array.ConvertAll(Console.ReadLine().Split(' '), arrTemp => Convert.ToInt32(arrTemp))
-            ;
-        miniMaxSum(arr);
-        Console.ReadLine();
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        int h = Convert.ToInt32(Console.ReadLine());
+
+        int m = Convert.ToInt32(Console.ReadLine());
+
+        string result = TimeInWords(h, m);
+
+        textWriter.WriteLine(result);
+
+        textWriter.Flush();
+        textWriter.Close();
     }
 }
 
