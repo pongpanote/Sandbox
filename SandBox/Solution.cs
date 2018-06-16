@@ -11,36 +11,30 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Text;
 using System;
+using System.Numerics;
 
 class Solution
 {
-
-    // Complete the staircase function below.
-    private static void Staircase(int n)
+    // Complete the miniMaxSum function below.
+    static void miniMaxSum(int[] arr)
     {
-        for (var i = 1; i <= n; i++)
+        for (var i = 0; i < arr.Length; i++)
         {
-            Console.WriteLine(FillCharacter(' ', n - i) + FillCharacter('#', i));
-        }
-    }
+            var y = arr.SkipWhile(x => x == arr.ElementAt(i));
+            
 
-    private static string FillCharacter(char ch, int no)
-    {
-        var str = string.Empty;
-        while (no > 0)
-        {
-            str += ch;
-            no--;
         }
-        return str;
-    }
 
+        //Console.WriteLine($"{min} {max}");
+        //1659655705 2484892405
+    }
 
     public static void Main(string[] args)
     {
-        var n = Convert.ToInt32(Console.ReadLine());
-
-        Staircase(n);
+        int[] arr = Array.ConvertAll(Console.ReadLine().Split(' '), arrTemp => Convert.ToInt32(arrTemp))
+            ;
+        miniMaxSum(arr);
+        Console.ReadLine();
     }
 }
 
