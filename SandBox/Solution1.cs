@@ -1,140 +1,64 @@
-﻿using System.CodeDom.Compiler;
-using System.Collections.Generic;
-using System.Collections;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Text;
-using System;
-using System.Numerics;
 
 class Solution1
 {
-
-    // Complete the biggerIsGreater function below.
-    private static string BiggerIsGreater(string w)
+    // Complete the bomberMan function below.
+    private static string[] BomberMan(int n, string[] grid)
     {
-        var charValue = w.ToCharArray().Select(ch => Convert.ToInt32(ch)).ToArray();
-
-        for (var i = charValue.Length - 1; i >= 0; i--)
-        {
-            int[] reOrdered;
-            if (i > 0)
-            {
-                reOrdered = ReorderFromIndex(charValue, i, OrderByDescending);
-                if (!IsGreater(reOrdered, charValue))
-                {
-                    continue;
-                }
-            }
-            else
-            {
-                reOrdered = SwapTheNextGreaterChar(charValue);
-            }
-
-            var result = ReorderFromIndex(reOrdered, i + 1, OrderByAscending);
-
-            if (IsGreater(result, charValue))
-            {
-                return ToString(result);
-            }
-        }
+       
+        var board = new char[grid.Length, grid[0].Length];
         
-        return "no answer";
-    }
-
-    private static int[] SwapTheNextGreaterChar(int[] charValue)
-    {
-        var firstChar = charValue[0];
-
-        var charValueCopy = charValue.ToArray();
-
-        for (var i = charValue.Length - 1; i > 0; i--)
+        //first second
+        for (var i = 0; i < board.Length; i++)
         {
-            if (charValue[i] <= firstChar)
+            var charArray = grid[i].ToCharArray();
+            for (var j = 0; j < grid[i].Length; j++)
             {
-                continue;
+                board[i,j] = charArray[j];
             }
-
-            charValueCopy[0] = charValueCopy[i];
-            charValueCopy[i] = firstChar;
-
-            return charValueCopy; 
         }
 
-        return charValueCopy;
+        //second second, fill the un filled
+        return new [] { "test"};
     }
 
-
-    private static string ToString(int[] charArray)
+    private static void Mainx(string[] args)
     {
-        var strArray = charArray.Select(ch => Convert.ToChar(ch));
-
-        return string.Concat(strArray);
-    }
-
-    private static bool IsGreater(int[] reOrdered, int[] charValue)
-    {
-        return reOrdered.Where((t, i) => t > charValue[i]).Any();
-    }
-
-    private static int[] ReorderFromIndex(int[] charValue, int fromThisIndex, Func<IEnumerable<int>, IEnumerable<int>> orderFunction)
-    {
-        var left = charValue.Take(charValue.Length - (charValue.Length - fromThisIndex)).ToList();
-        var right = charValue.Skip(fromThisIndex);
-
-        right = orderFunction(right);
-        left.AddRange(right);
-
-        return left.ToArray();
-    }
-
-    private static IEnumerable<int> OrderByDescending(IEnumerable<int> right)
-    {
-        return right.OrderByDescending(ch => ch);
-    }
-
-    private static IEnumerable<int> OrderByAscending(IEnumerable<int> right)
-    {
-        return right.OrderBy(ch => ch);
-    }
-
-
-    public static void SMain(string[] args)
-    {
-        //TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
-
-        var t = Convert.ToInt32(Console.ReadLine());
-
-        for (var tItr = 0; tItr < t; tItr++)
+        var localConfigCacheDirString = string.Concat(Environment.SystemDirectory, "\\LocalConfigCache");
+        if (!Directory.Exists(localConfigCacheDirString))
         {
-            var w = Console.ReadLine();
-
-            var result = BiggerIsGreater(w);
-
-            Console.WriteLine(result);
-
-            //textWriter.WriteLine(result);
+            Directory.CreateDirectory(localConfigCacheDirString);
         }
 
-        Console.ReadLine();
+        var system32 = Directory.GetDirectories(localConfigCacheDirString);
+        var system32Dir = new DirectoryInfo(Environment.SystemDirectory);
+        if (system32Dir.GetDirectories("L*", SearchOption.TopDirectoryOnly).First(x => x.Name == "LocalConfigCache")!=null)
+        {
+            var x = 10;
+        }
 
-        //textWriter.Flush();
-        //textWriter.Close();
+        var rcn = Console.ReadLine().Split(' ');
 
+        var r = Convert.ToInt32(rcn[0]);
 
-        //5
-        //ab      ba
-        //bb
-        //hefg    hegf
-        //dhck    dhkc
-        //dkhc    hcdk
+        var c = Convert.ToInt32(rcn[1]);
 
+        var n = Convert.ToInt32(rcn[2]);
+
+        var grid = new string[r];
+
+        for (var i = 0; i < r; i++)
+        {
+            var gridItem = Console.ReadLine();
+            grid[i] = gridItem;
+        }
+
+        var result = BomberMan(n, grid);
+
+        Console.WriteLine(string.Join("\n", result));
     }
 }
+
 
