@@ -43,9 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Program1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solution.cs" />
     <Compile Include="Solution1.cs" />
+    <Compile Include="UdpSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
